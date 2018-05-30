@@ -1,0 +1,41 @@
+﻿<UserControl x:Class="PDFMerge.View.PDFMergerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:PDFMerge.View"
+             mc:Ignorable="d" 
+             DataContext="{Binding Source={StaticResource Locator}, Path=PDFMergerViewModel}"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <ListView Grid.Row="0" x:Name="FilesList" ItemsSource="{Binding Path=Files}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <DockPanel HorizontalAlignment="Stretch" LastChildFill="True">
+                        <Button DockPanel.Dock="Right" Margin="5,0,0,0" Background="Red" Command="{Binding ElementName=FilesList, Path=DataContext.RemovePDFFileCommand}" CommandParameter="{Binding Path=DataContext, RelativeSource={RelativeSource Self}}">X</Button>
+                        <Button DockPanel.Dock="Right" HorizontalAlignment="Right" MaxWidth="15" Command="{Binding ElementName=FilesList, Path=DataContext.SetPDFPath}" CommandParameter="{Binding Path=DataContext, RelativeSource={RelativeSource Self}}">...</Button>
+                        <TextBox Text="{Binding Path=Path, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Left" HorizontalAlignment="Stretch" IsReadOnly="True" />
+                        
+                    </DockPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <DockPanel Grid.Row="1">
+            <Button DockPanel.Dock="Right" Command="{Binding Path=SetOutputPathCommand}">...</Button>
+            <TextBox DockPanel.Dock="Left" IsReadOnly="True" Text="{Binding Path=OutputPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        </DockPanel>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" MinWidth="15px" Background="Green" Command="{Binding Path=AddManyFilesCommand}" >+</Button>
+            <Button Grid.Column="1" Command="{Binding Path=MergeFilesCommand}">Merge</Button>
+        </Grid>
+    </Grid>
+</UserControl>
