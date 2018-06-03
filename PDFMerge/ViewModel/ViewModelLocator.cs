@@ -16,6 +16,7 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using Ninject;
 using Ninject.Modules;
+using PDFMerge.Services;
 
 namespace PDFMerge.ViewModel
 {
@@ -26,6 +27,7 @@ namespace PDFMerge.ViewModel
         {
             this.Bind<MainViewModel>().ToSelf();
             this.Bind<PDFMergerViewModel>().ToSelf();
+            this.Bind<PDFMerger>().ToSelf();
         }
     }
 

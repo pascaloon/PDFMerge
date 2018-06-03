@@ -23,12 +23,15 @@ namespace PDFMerge.ViewModel
         public RelayCommand AddManyFilesCommand { get; set; }
 
         private string _outputPath = @"C:\Output.pdf";
+        private PDFMerger _merger;
+
         public string OutputPath { get { return _outputPath; } set { Set<string>(() => this.OutputPath, ref _outputPath, value); } } 
         public RelayCommand SetOutputPathCommand { get; set; }
 
 
-        public PDFMergerViewModel()
+        public PDFMergerViewModel(PDFMerger merger)
         {
+            _merger = merger;
             if (IsInDesignMode)
             {
                 Files.Add(new PDFFile { Path = @"C:\Test1.pdf" });
@@ -91,8 +94,7 @@ namespace PDFMerge.ViewModel
 
         private void MergeFiles()
         {
-            PDFMerger merger = new PDFMerger();
-            var r = merger.MergePDFs(Files.ToList(), OutputPath);
+            var r = _merger.MergePDFs(Files.ToList(), OutputPath);
             if (r.Success)
             {
                 MessageBox.Show("All files have been merged.", "PDFs Merged");
